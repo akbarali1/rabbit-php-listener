@@ -1,0 +1,43 @@
+{
+  "version":"1.0.0",
+  "authors":[
+    {
+      "name":"Akbarali",
+      "email":"github@akbarali.uz",
+      "homepage":"https://github.com/akbarali1"
+    }
+  ],
+  "autoload":{
+    "psr-4":{
+      "Akbarali\\RabbitListener\\":"src/"
+    }
+  },
+  "description":"Laravel Rabbit Listener",
+  "extra":{
+    "laravel":{
+      "providers":[
+        "RabbitListenerProvider"
+      ]
+    }
+  },
+  "keywords":[
+    "laravel",
+    "rabbit"
+  ],
+  "license":"MIT",
+  "minimum-stability":"stable",
+  "name":"akbarali/rabbit-listener",
+  "require":{
+    "php":">=8.0",
+    "ext-pcntl":"*",
+    "php-amqplib/php-amqplib":"^3.6",
+    "ext-json":"*",
+    "ext-posix":"*",
+    "akbarali/action-data":"^1.3.0",
+    "akbarali/data-object":"^2.7.2"
+  },
+  "require-dev":{
+    "roave/security-advisories":"dev-latest",
+    "laravel/framework":"^9.0|^10.0|^11.0"
+  }
+}
