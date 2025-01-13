@@ -32,11 +32,7 @@ readonly class RabbitMQChannelDispatcher
 	
 	protected function getAuthParam(): array
 	{
-		if (isset($this->auth)) {
-			return ['auth' => $this->auth];
-		}
-		
-		return [];
+		return isset($this->auth) ? ['auth' => $this->auth] : [];
 	}
 	
 	/**
@@ -73,6 +69,9 @@ readonly class RabbitMQChannelDispatcher
 		}
 	}
 	
+	/**
+	 * @throws RabbitException
+	 */
 	private function checkAuthentication(bool $authRequired): void
 	{
 		if ($authRequired && is_null($this->auth)) {
@@ -116,12 +115,13 @@ readonly class RabbitMQChannelDispatcher
 	
 	private function handleException(Throwable $e): RabbitApiResponse
 	{
-		match (true) {
+		$logChannel = match (true) {
 			$e instanceof BindingResolutionException,
-				$e instanceof ReflectionException => Log::channel('dailiy')->error($e),
-			$e instanceof RabbitException,
-				$e instanceof Throwable           => Log::error($e),
+				$e instanceof ReflectionException => 'daily',
+			default                               => 'default',
 		};
+		
+		Log::channel($logChannel)->error($e);
 		
 		return match (true) {
 			$e instanceof ActionDataException => RabbitApiResponse::createRabbitError(RabbitException::actionDataError($e)),
