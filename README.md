@@ -2,14 +2,12 @@
 
 # TODO
 
-| Done ?                   | Name                                                               | Version       |
-|:-------------------------|:-------------------------------------------------------------------|:--------------|
-| :white_check_mark:       | Add command `rabit:pause` and `rabbit:continue`.                   | 0.1.5         |
-| :white_check_mark:       | Write error messages more clearly and translate them into English. | 0.1.7         |
-| :hourglass_flowing_sand: | Write a Sender for this Listener.                                  | Pending       |
-| :white_large_square:     | Writing documentation.                                             | In the future |
-| :white_large_square:     | Add middleware method.                                             | In the future |
-| :white_large_square:     | Add Docs Auth Middleware.                                          | In the future |
+| Done ?                   | Name                              | Version       |
+|:-------------------------|:----------------------------------|:--------------|
+| :hourglass_flowing_sand: | Write a Sender for this Listener. | Pending       |
+| :white_large_square:     | Writing documentation.            | In the future |
+| :white_large_square:     | Add middleware method.            | In the future |
+| :white_large_square:     | Add Docs Auth Middleware.         | In the future |
 
 # Install
 
