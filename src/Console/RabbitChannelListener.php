@@ -40,16 +40,18 @@ class RabbitChannelListener extends Command
 	public function __construct(
 		protected CacheManager $cacheManager
 	) {
-		$config                 = config('rabbit', []);
-		$this->connection       = app()->isLocal() ? null : new AMQPStreamConnection(
-			$config['connection']['host'],
-			$config['connection']['port'],
-			$config['connection']['user'],
-			$config['connection']['password'],
-			$config['connection']['vhost']
-		);
 		$this->availableLocales = collect($config['available_locales'] ?? []);
+		$config                 = config('rabbit', []);
 		
+		if (!app()->isLocal()) {
+			$this->connection = new AMQPStreamConnection(
+				$config['connection']['host'],
+				$config['connection']['port'],
+				$config['connection']['user'],
+				$config['connection']['password'],
+				$config['connection']['vhost']
+			);
+		}
 		parent::__construct();
 	}
 	
