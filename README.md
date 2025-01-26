@@ -18,7 +18,7 @@ composer require akbarali/rabbit-listener
 After installing Rabbit Listener, publish its assets using the `rabbit:install` Artisan command:
 
 ```aiignore
-php artisan rabit:install
+php artisan rabbit:install
 ```
 
 # Configuration
