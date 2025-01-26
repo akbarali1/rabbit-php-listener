@@ -1,7 +1,7 @@
 <?php
 
 return [
-	'configuration'     => [
+	'connection'     => [
 		'host'     => env('RABBIT_HOST', '127.0.0.1'),
 		'port'     => env('RABBIT_PORT', '5672'),
 		'user'     => env('RABBIT_USER'),
