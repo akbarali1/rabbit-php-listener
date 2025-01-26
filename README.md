@@ -22,6 +22,7 @@ php artisan rabbit:install
 ```
 
 add `.env` rabbit configuration
+
 ```aiignore
 RABBIT_HOST="host"
 RABBIT_VHOST="vhost"
@@ -52,6 +53,12 @@ php artisan rabbit:pause
 
 ```aiignore
 php artisan rabbit:continue
+```
+
+# Bonus
+
+```aiignore
+php artisan rabbit:info
 ```
 
 # Deploying Rabbit Listener
