@@ -21,6 +21,14 @@ After installing Rabbit Listener, publish its assets using the `rabbit:install` 
 php artisan rabbit:install
 ```
 
+add `.env` rabbit configuration
+```aiignore
+RABBIT_HOST="host"
+RABBIT_VHOST="vhost"
+RABBIT_USER="user"
+RABBIT_PASSWORD="pass"
+```
+
 # Configuration
 
 After publishing Rabbit Listener's assets, its primary configuration file will be located at `config/rabbit.php`.
