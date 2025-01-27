@@ -2,12 +2,13 @@
 
 # TODO
 
-| Done ?                   | Name                              | Version       |
-|:-------------------------|:----------------------------------|:--------------|
-| :hourglass_flowing_sand: | Write a Sender for this Listener. | Pending       |
-| :white_large_square:     | Writing documentation.            | In the future |
-| :white_large_square:     | Add middleware method.            | In the future |
-| :white_large_square:     | Add Docs Auth Middleware.         | In the future |
+| Done ?                   | Name                                  | Version       |
+|:-------------------------|:--------------------------------------|:--------------|
+| :hourglass_flowing_sand: | Write a Sender for this Listener.     | Pending       |
+| :hourglass_flowing_sand: | Fix bug in `rabbit:terminate` command | Pending       |
+| :white_large_square:     | Writing documentation.                | In the future |
+| :white_large_square:     | Add middleware method.                | In the future |
+| :white_large_square:     | Add Docs Auth Middleware.             | In the future |
 
 # Install
 
