@@ -5,7 +5,7 @@ namespace Akbarali\RabbitListener\Dispatchers;
 
 use Akbarali\ActionData\ActionDataBase;
 use Akbarali\ActionData\ActionDataException;
-use Akbarali\RabbitListener\Contracts\RabbitCommandContract;
+use Akbarali\RabbitListener\Contracts\RabbitConsumerContract;
 use Akbarali\RabbitListener\Exceptions\InternalException;
 use Akbarali\RabbitListener\Exceptions\RabbitException;
 use Akbarali\RabbitListener\Presenters\RabbitApiResponse;
@@ -64,7 +64,7 @@ readonly class RabbitMQChannelDispatcher
 	 */
 	private function validateServiceInterface(string $service): void
 	{
-		if (!(new ReflectionClass($service))->implementsInterface(RabbitCommandContract::class)) {
+		if (!(new ReflectionClass($service))->implementsInterface(RabbitConsumerContract::class)) {
 			throw RabbitException::serviceInterfaceNotImplemented();
 		}
 	}
