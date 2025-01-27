@@ -62,13 +62,13 @@ class InfoCommand extends Command
 			$vmRss  = 0;
 			
 			foreach ($lines as $line) {
-				if (strpos($line, 'VmSize') !== false) {
+				if (str_contains($line, 'VmSize')) {
 					preg_match('/VmSize:\s+(\d+)\s+kB/', $line, $matches);
 					if (isset($matches[1])) {
 						$vmSize = $matches[1];
 					}
 				}
-				if (strpos($line, 'VmRSS') !== false) {
+				if (str_contains($line, 'VmRSS')) {
 					preg_match('/VmRSS:\s+(\d+)\s+kB/', $line, $matches);
 					if (isset($matches[1])) {
 						$vmRss = $matches[1];

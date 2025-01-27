@@ -85,7 +85,6 @@ class RabbitChannelListener extends Command
 			$this->info("rabbit:channel:listen $this->queueName -- error: {$exception->getMessage()}");
 		} finally {
 			$this->closeConnection();
-			$this->cacheManager->forgetCache(getmypid());
 		}
 	}
 	
@@ -114,6 +113,11 @@ class RabbitChannelListener extends Command
 			$this->closeConnection();
 			$this->info("Connection closed");
 		});
+		
+		//		pcntl_signal(SIGUSR1, function () {
+		//			$this->cacheManager->setCacheInfo();
+		//		});
+		
 		// Continue Process
 		pcntl_signal(SIGCONT, function () {
 			try {
@@ -194,6 +198,8 @@ class RabbitChannelListener extends Command
 			$this->connection->close();
 		} catch (Throwable $exception) {
 			Log::error($exception);
+		} finally {
+			$this->cacheManager->forgetCache(getmypid());
 		}
 	}
 	
