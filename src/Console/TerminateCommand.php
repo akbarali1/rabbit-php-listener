@@ -7,6 +7,8 @@ use Illuminate\Console\Command;
 
 class TerminateCommand extends Command
 {
+	protected $signature   = 'rabbit:terminate';
+	protected $description = 'Terminate the master supervisor so it can be restarted';
 	
 	public function __construct(
 		protected CacheManager $cacheManager
@@ -14,25 +16,6 @@ class TerminateCommand extends Command
 		parent::__construct();
 	}
 	
-	/**
-	 * The name and signature of the console command.
-	 *
-	 * @var string
-	 */
-	protected $signature = 'rabbit:terminate';
-	
-	/**
-	 * The console command description.
-	 *
-	 * @var string
-	 */
-	protected $description = 'Terminate the master supervisor so it can be restarted';
-	
-	/**
-	 * Execute the console command.
-	 *
-	 * @return void
-	 */
 	public function handle(): void
 	{
 		$processIds = $this->cacheManager->getProcessIds();
@@ -43,6 +26,7 @@ class TerminateCommand extends Command
 			return;
 		}
 		
+		$total = count($processIds);
 		foreach ($processIds as $processId) {
 			$result = true;
 			$this->components->task("Process: $processId", function () use ($processId, &$result) {
@@ -54,5 +38,7 @@ class TerminateCommand extends Command
 				$this->cacheManager->changeProcessId($processId);
 			}
 		}
+		
+		$this->components->twoColumnDetail("<fg=green;options=bold>Total process count:</>", "{$total}\n");
 	}
 }

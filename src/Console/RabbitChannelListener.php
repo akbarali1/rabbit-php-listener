@@ -66,7 +66,7 @@ class RabbitChannelListener extends Command
 		$this->listenForSignals($shallStopWorking);
 		
 		$this->queueName = $this->argument('queue');
-		$this->info("rabbit:channel:listen $this->queueName -- started");
+		$this->info("rabbit:channel:listen $this->queueName -- started ".date('Y-m-d H:i:s'));
 		
 		try {
 			$this->checkConnection();
@@ -78,11 +78,11 @@ class RabbitChannelListener extends Command
 					$this->channel->wait();
 				}
 			}
-			$this->info("rabbit:channel:listen $this->queueName -- end");
+			$this->info("rabbit:channel:listen $this->queueName -- end ".date('Y-m-d H:i:s'));
 		} catch (Throwable $exception) {
 			Log::error($exception);
 			$this->error($exception->getMessage());
-			$this->info("rabbit:channel:listen $this->queueName -- error: {$exception->getMessage()}");
+			$this->info("rabbit:channel:listen $this->queueName -- error: {$exception->getMessage()} ".date('Y-m-d H:i:s'));
 		} finally {
 			$this->closeConnection();
 		}
@@ -100,7 +100,9 @@ class RabbitChannelListener extends Command
 	
 	protected function listenForSignals(bool &$shallStopWorking): void
 	{
-		$stop = static fn() => $shallStopWorking = true;
+		$stop = static function () use (&$shallStopWorking): void {
+			$shallStopWorking = true;
+		};
 		// сигнал об остановке от supervisord
 		pcntl_signal(SIGTERM, $stop);
 		// Close Terminal
@@ -114,9 +116,9 @@ class RabbitChannelListener extends Command
 			$this->info("Connection closed");
 		});
 		
-		//		pcntl_signal(SIGUSR1, function () {
-		//			$this->cacheManager->setCacheInfo();
-		//		});
+		//pcntl_signal(SIGUSR1, function () {
+		//	$this->cacheManager->setCacheInfo();
+		//});
 		
 		// Continue Process
 		pcntl_signal(SIGCONT, function () {
