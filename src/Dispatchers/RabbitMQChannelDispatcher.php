@@ -52,7 +52,7 @@ readonly class RabbitMQChannelDispatcher
 			$instance = app()->make($service, $this->getAuthParam());
 			$params   = $this->resolveParameters($instance, $method, $route['parameterType'] ?? null);
 			
-			return new RabbitApiResponse($instance->{$method}(...$params));
+			return new RabbitApiResponse(is_object($params) ? $instance->{$method}($params) : $instance->{$method}(...$params));
 		} catch (Throwable $e) {
 			return $this->handleException($e);
 		}
@@ -85,20 +85,38 @@ readonly class RabbitMQChannelDispatcher
 	 * @throws RabbitException
 	 * @throws ValidationException
 	 */
-	private function resolveParameters(object $instance, string $method, ?string $parameterType): array
+	private function resolveParameters(object $instance, string $method, ?string $parameterType): array|object
 	{
-		if ($parameterType) {
-			$class = new $parameterType();
-			if ($class instanceof ActionDataBase) {
-				return [$class::fromArray($this->params)];
-			}
+		if ($parameterType && is_subclass_of($parameterType, ActionDataBase::class)) {
+			return [$parameterType::fromArray($this->params)];
 		}
 		
-		$reflection      = new ReflectionMethod($instance, $method);
+		$reflection = new ReflectionMethod($instance, $method);
+		/** @var \ReflectionParameter[] $parametrs */
+		$parameters = $reflection->getParameters();
+		if (count($parameters) === 1) {
+			$singleParam = $parameters[0];
+			$type        = $singleParam->getType();
+			if ($type) {
+				$paramClassName = $type->getName();
+				if (class_exists($paramClassName) && method_exists($paramClassName, 'fromArray')) {
+					return $paramClassName::fromArray($this->params);
+				}
+				
+				if (empty($this->params) && $type->allowsNull()) {
+					return [];
+				}
+				
+				if ($singleParam->isDefaultValueAvailable()) {
+					return [$singleParam->getName() => $singleParam->getDefaultValue()];
+				}
+				
+				throw RabbitException::invalidParams(["\${$singleParam->getName()} is required {$type}"]);
+			}
+		}
 		$params          = [];
 		$paramsNotFilled = [];
-		
-		foreach ($reflection->getParameters() as $param) {
+		foreach ($parameters as $param) {
 			$name          = $param->getName();
 			$params[$name] = $this->params[$name] ?? ($param->isDefaultValueAvailable() ? $param->getDefaultValue() : null);
 			if (is_null($params[$name]) && !$param->isOptional()) {
