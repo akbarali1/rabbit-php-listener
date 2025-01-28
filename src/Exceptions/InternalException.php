@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Akbarali\RabbitListener\Exceptions;
 
 use Akbarali\RabbitListener\Enums\ExceptionCode;
+use App\Enums\UserErrorCode;
 use Exception;
 
 class InternalException extends Exception
@@ -13,7 +14,7 @@ class InternalException extends Exception
 	protected ExceptionCode $internalCode;
 	
 	public static function new(
-		ExceptionCode $code,
+		ExceptionCode|UserErrorCode $code,
 		?string $message = null,
 		?string $description = null,
 		?int $statusCode = null,
