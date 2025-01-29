@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Route;
 
 enum ExceptionCode: int
 {
+	case UnknownExceptionCode = -1000;
+	
 	#region RabbitMQ
 	case RabbitServiceNotFound                = -3000;
 	case RabbitRouteNotFound                  = -3001;

@@ -28,10 +28,10 @@ class InstallCommand extends Command
 	{
 		$this->components->info('Installing Rabbit Listener resources.');
 		collect([
-			'Configuration' => fn() => (int) $this->callSilent('vendor:publish', ['--tag' => 'rabbit-config']) === 0,
-			'Lang'          => fn() => (int) $this->callSilent('vendor:publish', ['--tag' => 'rabbit-lang']) === 0,
-			'Error Codes'   => fn() => (int) $this->callSilent('vendor:publish', ['--tag' => 'enum-code']) === 0,
-			'Routes'        => fn() => (int) $this->callSilent('vendor:publish', ['--tag' => 'rabbit-route']) === 0,
+			'Configuration'   => fn() => (int) $this->callSilent('vendor:publish', ['--tag' => 'rabbit-config']) === 0,
+			'Lang'            => fn() => (int) $this->callSilent('vendor:publish', ['--tag' => 'rabbit-lang']) === 0,
+			'Exception Codes' => fn() => (int) $this->callSilent('vendor:publish', ['--tag' => 'exception-code']) === 0,
+			'Routes'          => fn() => (int) $this->callSilent('vendor:publish', ['--tag' => 'rabbit-route']) === 0,
 		])->each(fn($task, $description) => $this->components->task($description, $task));
 		
 		//$this->registerRabbitServiceProvider();

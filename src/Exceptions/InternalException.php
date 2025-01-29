@@ -4,17 +4,17 @@ declare(strict_types=1);
 namespace Akbarali\RabbitListener\Exceptions;
 
 use Akbarali\RabbitListener\Enums\ExceptionCode;
-use App\Enums\UserErrorCode;
+use App\Enums\UserExceptionCode;
 use Exception;
 
 class InternalException extends Exception
 {
-	protected string        $description;
-	protected array         $langParams = [];
-	protected ExceptionCode $internalCode;
+	protected string                          $description;
+	protected array                           $langParams = [];
+	protected ExceptionCode|UserExceptionCode $internalCode;
 	
 	public static function new(
-		ExceptionCode|UserErrorCode $code,
+		ExceptionCode|UserExceptionCode $code,
 		?string $message = null,
 		?string $description = null,
 		?int $statusCode = null,
@@ -31,7 +31,7 @@ class InternalException extends Exception
 	}
 	
 	public static function newLangParams(
-		ExceptionCode $code,
+		ExceptionCode|UserExceptionCode $code,
 		array $langParams,
 		?string $message = null,
 		?string $description = null,
@@ -65,12 +65,12 @@ class InternalException extends Exception
 		return $exception;
 	}
 	
-	public function getInternalCode(): ExceptionCode
+	public function getInternalCode(): ExceptionCode|UserExceptionCode
 	{
 		return $this->internalCode;
 	}
 	
-	public function checkInternalCode(ExceptionCode $code): bool
+	public function checkInternalCode(ExceptionCode|UserExceptionCode $code): bool
 	{
 		return $code === $this->getInternalCode();
 	}

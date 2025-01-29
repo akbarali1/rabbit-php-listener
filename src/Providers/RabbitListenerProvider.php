@@ -64,8 +64,8 @@ class RabbitListenerProvider extends ServiceProvider
 			], 'rabbit-config');
 			
 			$this->publishes([
-				__DIR__.'/../stubs/UserErrorCode.stub' => app_path('Enums/UserErrorCode.php'),
-			], 'enum-code');
+				__DIR__.'/../stubs/UserExceptionCode.stub' => app_path('Enums/UserExceptionCode.php'),
+			], 'exception-code');
 			
 			$this->publishes([
 				__DIR__.'/../../lang/eng/exceptions.php' => lang_path('eng/exceptions.php'),

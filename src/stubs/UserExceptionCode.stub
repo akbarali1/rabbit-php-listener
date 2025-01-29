@@ -5,7 +5,7 @@ namespace App\Enums;
 
 use Illuminate\Support\Facades\Route;
 
-enum UserErrorCode: int
+enum UserExceptionCode: int
 {
 	//case TestCode             = -10000;
 	case UnknownExceptionCode   = -1000;
@@ -81,7 +81,7 @@ enum UserErrorCode: int
 		return null;
 	}
 
-	public static function findExceptionCode(int $code): ExceptionCode
+	public static function findExceptionCode(int $code): UserErrorCode
 	{
 		foreach (self::cases() as $value) {
 			if ($value->value === $code) {
