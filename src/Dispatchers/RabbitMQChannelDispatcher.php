@@ -106,9 +106,11 @@ readonly class RabbitMQChannelDispatcher
 				if (empty($this->params) && $type->allowsNull()) {
 					return [];
 				}
-				
 				if ($singleParam->isDefaultValueAvailable()) {
 					return [$singleParam->getName() => $singleParam->getDefaultValue()];
+				}
+				if (isset($this->params[$singleParam->getName()])) {
+					return [$singleParam->getName() => $this->params[$singleParam->getName()]];
 				}
 				
 				throw RabbitException::invalidParams(["\${$singleParam->getName()} is required {$type}"]);
